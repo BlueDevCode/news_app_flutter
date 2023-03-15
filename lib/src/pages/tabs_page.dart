@@ -1,34 +1,40 @@
-
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class TabsPage extends StatelessWidget {
-   
-  const TabsPage ({Key? key}) : super(key: key);
-  
+  const TabsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _Paginas(),
-      bottomNavigationBar: _Navegacion(),
-      );
+    return ChangeNotifierProvider(
+      create: (_) => _NavegacionModel(),
+      child: Scaffold(
+        body: _Paginas(),
+        bottomNavigationBar: _Navegacion(),
+      ),
+    );
   }
 }
 
 class _Navegacion extends StatelessWidget {
-   const _Navegacion({
+  const _Navegacion({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final navegacionModel = Provider.of<_NavegacionModel>(context);
+
     return BottomNavigationBar(
-      currentIndex: 0,
-      items:  const [
-      BottomNavigationBarItem(icon: Icon(Icons.person_add_alt_1_outlined), label:("For you")),
-      BottomNavigationBarItem(icon: Icon(Icons.public), label:("Headers")),
-    ],);
-     
-  
+      currentIndex: navegacionModel.paginaActual,
+      onTap: (i) => navegacionModel.paginaActual = i,
+      items: const [
+        BottomNavigationBarItem(
+            icon: Icon(Icons.person_add_alt_1_outlined), label: ("For you")),
+        BottomNavigationBarItem(icon: Icon(Icons.public), label: ("Headers")),
+      ],
+    );
   }
 }
 
@@ -39,7 +45,9 @@ class _Paginas extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final navegacionModel = Provider.of<_NavegacionModel>(context);
     return PageView(
+      controller: navegacionModel.pageController,
       //physics: const BouncingScrollPhysics() ,
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
@@ -50,6 +58,28 @@ class _Paginas extends StatelessWidget {
           color: Colors.green,
         )
       ],
-      );
+    );
   }
+}
+
+
+
+class _NavegacionModel with ChangeNotifier{
+
+  int _paginaActual = 0;
+  PageController _pageController = new PageController(initialPage: 1);
+
+
+  int get paginaActual => this._paginaActual;
+  
+  set paginaActual( int valor ) {
+    this._paginaActual = valor;
+    _pageController.animateToPage(valor, duration: Duration(milliseconds: 250), curve: Curves.easeInOut);
+
+    _pageController.animateToPage(valor, duration: Duration(milliseconds: 250), curve: Curves.easeOut );
+
+    notifyListeners();
+  }
+
+  PageController get pageController => this._pageController;
 }
