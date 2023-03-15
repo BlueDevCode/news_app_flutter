@@ -15,13 +15,18 @@ class TabsPage extends StatelessWidget {
 }
 
 class _Navegacion extends StatelessWidget {
-   _Navegacion({
+   const _Navegacion({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(items: [],);
+    return BottomNavigationBar(
+      currentIndex: 0,
+      items:  const [
+      BottomNavigationBarItem(icon: Icon(Icons.person_add_alt_1_outlined), label:("For you")),
+      BottomNavigationBarItem(icon: Icon(Icons.public), label:("Headers")),
+    ],);
      
   
   }
@@ -35,7 +40,8 @@ class _Paginas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      physics: BouncingScrollPhysics() ,
+      //physics: const BouncingScrollPhysics() ,
+      physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         Container(
           color: Colors.red,
