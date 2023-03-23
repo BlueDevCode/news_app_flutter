@@ -8,6 +8,7 @@ const _APIKEY = "ab093bb812ed4f78902605f6f64065a5";
 class NewsService with ChangeNotifier {
 
   List <Article> headLines = [];
+  List <Article> articles =[];
   NewsService(){
     getTopHeadLines();
 
@@ -16,10 +17,13 @@ class NewsService with ChangeNotifier {
 getTopHeadLines()async{
   const url = "$_URL_NEWS/top-headlines?apiKey=$_APIKEY&country=us";
   final resp = await http.get( Uri.parse(url));
-  final newsResponse = newsResponseFromMap (resp.body);
- this.headLines.addAll(newsResponse.articles);
+  final newsResponse = newsResponseFromJson (resp.body);
+  headLines.addAll(newsResponse.articles);
+ 
  notifyListeners();
 }
+
+  newsResponseFromMap(String body) {}
 
  
 
