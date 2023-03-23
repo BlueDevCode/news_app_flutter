@@ -20,6 +20,7 @@ getTopHeadLines()async{
   final newsResponse = newsResponseFromJson (resp.body);
   headLines.addAll(newsResponse.articles);
  
+ 
  notifyListeners();
 }
 
