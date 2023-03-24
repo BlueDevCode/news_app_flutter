@@ -20,15 +20,16 @@ getTopHeadLines()async{
    
   final url = "$_URL_NEWS/top-headlines?apiKey=$_APIKEY&country=us";
   final resp = await http.get( Uri.parse(url));
-  final newsResponse = newsResponseFromMap (resp.body);
+  final newsResponse = newsResponseFromJson (resp.body);
   if (newsResponse != null && newsResponse.articles !=null ) {
      headLines.addAll(newsResponse.articles);
+    notifyListeners();
   }
-  
+ 
 
  
  
- notifyListeners();
+ 
 }
 
   newsResponseFromMap(String body) {}
