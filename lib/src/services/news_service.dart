@@ -8,7 +8,7 @@ final _APIKEY = "ab093bb812ed4f78902605f6f64065a5";
 
 class NewsService with ChangeNotifier {
 
-  List <Article> headLines = [];
+  List <Article> headlines = [];
   List <Article> articles  =[ ];
   NewsService(){
     getTopHeadLines();
@@ -22,7 +22,7 @@ getTopHeadLines()async{
   final resp = await http.get( Uri.parse(url));
   final newsResponse = newsResponseFromJson (resp.body);
   if (newsResponse != null && newsResponse.articles !=null ) {
-     headLines.addAll(newsResponse.articles);
+     headlines.addAll(newsResponse.articles);
     notifyListeners();
   }
  

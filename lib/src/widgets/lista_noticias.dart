@@ -5,7 +5,7 @@ import '../models/news_models.dart';
 
 
 class ListaNoticias extends StatelessWidget {
-  final List  noticias ;
+  final List <Article> noticias ;
   const ListaNoticias(headLines, {super.key, required this.noticias});
 
   @override
